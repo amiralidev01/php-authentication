@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Register | AmirAliAuth</title>
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="<?= assets('css/style.css') ?>">
 
 </head>
 
@@ -16,20 +16,28 @@
         <h2>Register</h2>
 
         <form action="" method="post" class="form">
-          
+
           <div class="inputBox">
-            <input type="text" name="name" required> <i>Name</i>
+            <input type="text" name="name"> <i>Name</i>
           </div>
 
           <div class="inputBox">
-            <input type="text" name="phone" required> <i>Phone</i>
+            <input type="text" name="phone"> <i>Phone</i>
           </div>
 
           <div class="inputBox">
-            <input type="text" name="email" required> <i>Email</i>
+            <input type="email" name="email"> <i>Email</i>
           </div>
 
-          <div class="links"> <a></a> <a href="#">Login</a>
+          <div class="links">
+
+            <a href="<?= siteUrl('auth.php?action=login') ?>">Login</a>
+            <?php if (isset($_SESSION['error']) and !empty($_SESSION['error'])) : ?>
+              <p class="error-message"><?= $_SESSION['error'] ?></p>
+            <?php unset($_SESSION['error']);
+            endif; ?>
+
+
           </div>
 
           <div class="inputBox">

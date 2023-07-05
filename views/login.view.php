@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Login | AmirAliAuth</title>
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="<?= assets('css/style.css') ?>">
 
 </head>
 
@@ -15,17 +15,17 @@
 
         <h2>Login</h2>
 
-        <form action="" method="post" class="form">
+        <form action="<?= siteUrl('auth.php?action=login');?>" method="post" class="form">
 
           <div class="inputBox">
-            <input type="text" name="email" required> <i>Email</i>
+            <input type="text" name="email"> <i>Email</i>
           </div>
 
-          <div class="links"> <a href="#">Forgot Password</a> <a href="#">Register</a>
+          <div class="links"> <a href="#">Forgot Password</a> <a href="<?= siteUrl('auth.php?action=register') ?>">Register</a>
           </div>
 
           <div class="inputBox">
-            <input type="submit" value="Login">
+            <input type="submit" name="" value="Login">
           </div>
 
         </form>

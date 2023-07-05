@@ -1,8 +1,10 @@
 <?php
+session_start();
 
 require 'config.php';
 require 'constants.php';
-
+require BASE_PATH . 'libs/helpers.php';
+require BASE_PATH . 'libs/lib-auth.php';
 
 # connect to the db
 try {
@@ -13,4 +15,4 @@ try {
 }
 
 # connect to the database successfully
-echo "ok";
+// echo "ok";
