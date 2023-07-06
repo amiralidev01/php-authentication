@@ -18,11 +18,23 @@
                 <form action="<?= siteUrl('auth.php?action=verify'); ?>" method="post" class="form">
 
                     <div class="inputBox">
-                        <input type="text" name="verify"> <i>verify</i>
+                        <input type="text" name="token"> <i>verify</i>
                     </div>
 
                     <div class="inputBox">
                         <input type="submit" name="" value="Verify">
+                    </div>
+
+                    <div class="links">
+                        <?php if (isset($_SESSION['error']) and !empty($_SESSION['error'])) : ?>
+                            <p class="error-message"><?= $_SESSION['error'] ?></p>
+                        <?php unset($_SESSION['error']);
+                        endif; ?>
+
+                        <?php if (isset($_SESSION['success']) and !empty($_SESSION['success'])) : ?>
+                            <p style="color:green;"><?= $_SESSION['success'] ?></p>
+                        <?php unset($_SESSION['success']);
+                        endif; ?>
                     </div>
 
                 </form>

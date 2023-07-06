@@ -25,3 +25,10 @@ function setErrorAndRedirect(string $msg, string $target)
     $_SESSION['error'] = $msg;
     redirect(siteUrl($target));
 }
+
+
+function setMsgSuccessAndRedirect(string $msg, string $target)
+{
+    $_SESSION['error'] = $msg;
+    redirect(siteUrl($target));
+}

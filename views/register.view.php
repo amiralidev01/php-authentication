@@ -31,7 +31,7 @@
 
           <div class="links">
 
-            <a href="<?= siteUrl('auth.php?action=login') ?>">Login</a>
+            <a href="<?= siteUrl('/auth.php?action=login') ?>">Login</a>
             <?php if (isset($_SESSION['error']) and !empty($_SESSION['error'])) : ?>
               <p class="error-message"><?= $_SESSION['error'] ?></p>
             <?php unset($_SESSION['error']);

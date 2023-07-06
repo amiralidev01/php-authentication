@@ -55,6 +55,15 @@ function findTokenByHash(string $hash): object|bool
     return $stmt->fetch(PDO::FETCH_OBJ);
 }
 
+function deleteTokenByHash(string $hash): object|bool
+{
+    global $pdo;
+    $sql = 'DELETE FROM `tokens` WHERE `hash` = :hash';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['hash' => $hash]);
+    return $stmt->fetch(PDO::FETCH_OBJ);
+}
+
 
 function sendTokenByMail(string $email, string $token): bool
 {
@@ -64,4 +73,45 @@ function sendTokenByMail(string $email, string $token): bool
     $mail->Subject = 'amirAuth Verification Token<br>';
     $mail->Body    = '<h1>Your Token Is:</h1>' . "<h3>$token<h3>";
     return $mail->send();
+}
+
+
+function changeLoginSession(string $session, string $email): bool
+{
+    global $pdo;
+    $sql = 'UPDATE `users` SET `session` = :session WHERE `email` = :email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['session' => $session, 'email' => $email]);
+    return $stmt->rowCount() ? true : false;
+}
+
+
+
+// ----------------------------------------------------------------
+
+
+function getAuthenticateUserBySession(string $session): object|bool
+{
+    global $pdo;
+    $sql = 'SELECT * FROM `users` WHERE `session` = :session';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['session' => $session]);
+    return $stmt->fetch(PDO::FETCH_OBJ);
+}
+
+function isLoggedIn(): bool
+{
+    if (empty($_COOKIE['auth']))
+        return false;
+    return getAuthenticateUserBySession($_COOKIE['auth']) ? true : false;
+}
+
+
+function deleteExpiredTokens(): bool
+{
+    global $pdo;
+    $sql = 'DELETE FROM `tokens` WHERE `expired_at` < now();';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    return $stmt->rowCount() ? true : false;
 }
