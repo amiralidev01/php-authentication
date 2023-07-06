@@ -76,7 +76,7 @@ function sendTokenByMail(string $email, string $token): bool
 }
 
 
-function changeLoginSession(string $session, string $email): bool
+function changeLoginSession(string $email, string $session = null): bool
 {
     global $pdo;
     $sql = 'UPDATE `users` SET `session` = :session WHERE `email` = :email';
@@ -114,4 +114,12 @@ function deleteExpiredTokens(): bool
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     return $stmt->rowCount() ? true : false;
+}
+
+
+function logout(string $email): void
+{
+    changeLoginSession($email);
+    setcookie('auth', '', time() - 60, '/');
+    redirect('auth.php');
 }

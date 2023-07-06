@@ -3,6 +3,10 @@ include 'bootstrap/init.php';
 if (!isLoggedIn()) {
     redirect('auth.php?action=login');
 }
+$userData = getAuthenticateUserBySession($_COOKIE['auth']);
+if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+    logout($userData->email);
+}
 ?>
 
 <!DOCTYPE html>
@@ -15,8 +19,9 @@ if (!isLoggedIn()) {
 </head>
 
 <body>
+    <a href="?action=logout">Logout</a>
     <ul>
-        <?php foreach (getAuthenticateUserBySession($_COOKIE['auth']) as $key => $val) : ?>
+        <?php foreach ($userData as $key => $val) : ?>
             <li><?= "$key : $val"; ?></li>
         <?php endforeach; ?>
     </ul>

@@ -43,9 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             setErrorAndRedirect('Email is Required!', 'auth.php?action=login');
         if (!filter_var($params['email'], FILTER_VALIDATE_EMAIL))
             setErrorAndRedirect('enter the valid email address!', 'auth.php?action=login');
-        if (!isUserExists($params['email'])) 
+        if (!isUserExists($params['email']))
             setErrorAndRedirect('this user is not exists! : ', 'auth.php?action=login');
-    
+
 
         $_SESSION['email'] = $params['email'];
         redirect('auth.php?action=verify');
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $token = findTokenByHash($_SESSION['hash'])->token;
         if ($token === $params['token']) {
             $session = bin2hex(random_bytes(32));
-            changeLoginSession($session, $_SESSION['email']);
+            changeLoginSession($_SESSION['email'], $session);
             setcookie('auth', $session, time() + 1728000, '/');
             deleteTokenByHash($_SESSION['hash']);
             unset($_SESSION['hash'], $_SESSION['email']);
