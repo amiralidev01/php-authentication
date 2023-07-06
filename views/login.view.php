@@ -15,13 +15,18 @@
 
         <h2>Login</h2>
 
-        <form action="<?= siteUrl('auth.php?action=login');?>" method="post" class="form">
+        <form action="<?= siteUrl('auth.php?action=login'); ?>" method="post" class="form">
 
           <div class="inputBox">
             <input type="text" name="email"> <i>Email</i>
           </div>
 
-          <div class="links"> <a href="#">Forgot Password</a> <a href="<?= siteUrl('auth.php?action=register') ?>">Register</a>
+          <div class="links">
+            <?php if (isset($_SESSION['error']) and !empty($_SESSION['error'])) : ?>
+              <p class="error-message"><?= $_SESSION['error'] ?></p>
+            <?php unset($_SESSION['error']);
+            endif; ?>
+            <a href=""></a> <a href="<?= siteUrl('auth.php?action=register') ?>">Register</a>
           </div>
 
           <div class="inputBox">

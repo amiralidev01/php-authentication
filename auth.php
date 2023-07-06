@@ -32,9 +32,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
+
+
 # include files with action methods
 if (isset($_GET['action']) and $_GET['action'] == 'register') {
     include 'views/register.view.php';
+} elseif (isset($_GET['action']) and $_GET['action'] == 'verify' and isset($_SESSION['email']) and !empty($_SESSION['email'])) {
+    if (!isUserExists($_SESSION['email']))
+        setErrorAndRedirect('user not exists with this data!', 'auth.php?action=login');
+    if (isset($_SESSION['hash']) and isAliveToken($_SESSION['hash'])) {
+        # send old token
+        sendTokenByMail($_SESSION['email'], findTokenByHash($_SESSION['hash'])->token);
+    } else {
+        $tokenResult = createLoginToken();
+        sendTokenByMail($_SESSION['email'], $tokenResult['token']);
+        $_SESSION['hash'] = $tokenResult['hash'];
+    }
+
+    include 'views/verify.view.php';
 } else {
     include 'views/login.view.php';
 }
